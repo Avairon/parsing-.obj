@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -6,88 +8,102 @@
 
 using namespace std;
 
-class versh{
+class versh {
 public:
     double x;
     double y;
     double z;
 
-    versh(){
+    versh() {
 
     }
-    versh(double X, double Y, double Z){
+    versh(double X, double Y, double Z) {
         x = X;
         y = Y;
         z = Z;
     }
 };
 
-class norm{
+class norm {
 public:
     double x;
     double y;
     double z;
 
-    norm(){
+    norm() {
 
     }
-    norm(double X, double Y, double Z){
+    norm(double X, double Y, double Z) {
         x = X;
         y = Y;
         z = Z;
     }
 };
 
-class tcor{
+class tcor {
 public:
     double x;
     double y;
     double z;
 
-    tcor(){
+    tcor() {
 
     }
-    tcor(double X, double Y, double Z){
+    tcor(double X, double Y, double Z) {
         x = X;
         y = Y;
         z = Z;
     }
 };
 
-class plosk{
+class plosk {
 public:
     vector<int> x;
     vector<int> y;
     vector<int> z;
+    vector<int> n;
 
-    plosk(){
-        
+    plosk() {
+
     }
-    plosk(vector<double> X, vector<double> Y, vector<double> Z){
-        for(int i = 0; i < X.size(); i++) x.push_back(X.at(i));
-        for(int i = 0; i < Y.size(); i++) y.push_back(Y.at(i));
-        for(int i = 0; i < Z.size(); i++) z.push_back(Z.at(i));
-        
+    plosk(vector<double> X, vector<double> Y, vector<double> Z) {
+        for (int i = 0; i < X.size(); i++) x.push_back(X.at(i));
+        for (int i = 0; i < Y.size(); i++) y.push_back(Y.at(i));
+        for (int i = 0; i < Z.size(); i++) z.push_back(Z.at(i));
+
     }
 };
 
 
-int main(){
+int main() {
     vector<versh> vershs;
     vector<norm> norms;
     vector<tcor> tcors;
     vector<plosk> plosks;
 
+    int a = NULL;
+    int b = NULL;
+    int c = NULL;
+    int d = NULL;
+    int e = NULL;
+    int f = NULL;
+    int g = NULL;
+    int h = NULL;
+    int i = NULL;
+    int j = NULL;
+    int k = NULL;
+    int l = NULL;
+
     char input[256];
-    cout << "insert name of file(with extension)";
+    cout << "insert name of file(with extension)" << "\n";
     cin >> input;
 
     FILE* db = fopen(input, "r");
 
     char buffer[256];
     fseek(db, 0, SEEK_SET);
- 
-    while(buffer != NULL){
+
+    while (buffer != NULL) {
         fgets(buffer, 256, db);
 
         versh objV = *new versh();
@@ -102,33 +118,27 @@ int main(){
         scanf("vn %lf %lf %lf", objVN.x, objVN.y, objVN.z);
         norms.push_back(objVN);
 
-        if(buffer[0] == 'f' and strtok(buffer, " ") == 4){
-            plosk objF = *new plosk;
+        plosk objF = *new plosk;
+        scanf("f %d/%d/%d %d/%d/%d %d/%d/%d %d/%d/%d", a, b, c, d, e, f, g, h, i, j, k, l);
 
-            int x, y, z, v;
-            for(int i = 0; i < 4; i++){
-                
-                scanf("%d/%d/%d", x, y, z);
+        //cout << x << " - " << y << " - " << z << "\n";
 
-                switch(i){
-                    case(1):
-                        objF.x.push_back(x);
-                        objF.x.push_back(y);
-                        objF.x.push_back(z);
-                        break;
-                    case(2):
-                        objF.y.push_back(x);
-                        objF.y.push_back(y);
-                        objF.y.push_back(z);
-                        break;
-                    case(3):
-                        objF.z.push_back(x);
-                        objF.z.push_back(y);
-                        objF.z.push_back(z);
-                        break;
-                }
-            }
-        }
+        objF.x.push_back(a);
+        objF.x.push_back(b);
+        objF.x.push_back(c);
+
+        objF.y.push_back(d);
+        objF.y.push_back(e);
+        objF.y.push_back(f);
+
+        objF.z.push_back(g);
+        objF.z.push_back(h);
+        objF.z.push_back(i);
+
+        objF.n.push_back(j);
+        objF.n.push_back(k);
+        objF.n.push_back(l);
+        
     }
 
     cout << "cout of vershs: " << vershs.size() << "\n";
