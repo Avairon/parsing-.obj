@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <string.h>
 #include <vector>
 #include <cstring>
 
@@ -44,15 +45,13 @@ class tcor {
 public:
     double x;
     double y;
-    double z;
 
     tcor() {
 
     }
-    tcor(double X, double Y, double Z) {
+    tcor(double X, double Y) {
         x = X;
         y = Y;
-        z = Z;
     }
 };
 
@@ -66,13 +65,8 @@ public:
     plosk() {
 
     }
-    plosk(vector<double> X, vector<double> Y, vector<double> Z) {
-        for (int i = 0; i < X.size(); i++) x.push_back(X.at(i));
-        for (int i = 0; i < Y.size(); i++) y.push_back(Y.at(i));
-        for (int i = 0; i < Z.size(); i++) z.push_back(Z.at(i));
-
-    }
 };
+
 
 
 int main() {
@@ -81,68 +75,62 @@ int main() {
     vector<tcor> tcors;
     vector<plosk> plosks;
 
-    int a = NULL;
-    int b = NULL;
-    int c = NULL;
-    int d = NULL;
-    int e = NULL;
-    int f = NULL;
-    int g = NULL;
-    int h = NULL;
-    int i = NULL;
-    int j = NULL;
-    int k = NULL;
-    int l = NULL;
+    int a, b, c;
 
-    char input[256];
-    cout << "insert name of file(with extension)" << "\n";
-    cin >> input;
+    char input[256] = "/home/avairon/CodeCPP/Grani/cube.obj";
+    //cout << "insert name of file(with extension)" << "\n";
+    //cin >> input;
 
     FILE* db = fopen(input, "r");
 
     char buffer[256];
+    char *buff2[256];
+
     fseek(db, 0, SEEK_SET);
 
-    while (buffer != NULL) {
-        fgets(buffer, 256, db);
+    while (fgets(buffer, sizeof(buffer), db) != NULL) {
+    //cout << buffer << "\n";
 
-        versh objV = *new versh();
-        scanf("v %lf %lf %lf", objV.x, objV.y, objV.z);
-        vershs.push_back(objV);
+    if (buffer[0] == 'v') {
+        if (buffer[1] == ' ') {
+            versh objV = *new versh();
+            sscanf(buffer, "v %lf %lf %lf", &objV.x, &objV.y, &objV.z);
+            vershs.push_back(objV);
+            cout << "add objV\n";
+        } 
+        else if (buffer[1] == 't') {
+            tcor objVT = *new tcor();
+            sscanf(buffer, "vt %lf %lf", &objVT.x, &objVT.y);
+            tcors.push_back(objVT);
+            cout << "add objVT\n";
+        } 
+        else if (buffer[1] == 'n') {
+            norm objVN = *new norm();
+            sscanf(buffer, "vn %lf %lf %lf", &objVN.x, &objVN.y, &objVN.z);
+            norms.push_back(objVN);
+            cout << "add objVN\n";
+        }
+    } 
+    else if (buffer[0] == 'f') {
+        plosk objF = *new plosk();
 
-        tcor objVT = *new tcor;
-        scanf("vt %lf %lf %lf", objVT.x, objVT.y, objVT.z);
-        tcors.push_back(objVT);
+        char* token = strtok(buffer, " ");
+        while (token != NULL) {
+            sscanf(token, "%d/%d/%d", &a, &b, &c);
+            objF.x.push_back(a);
+            objF.y.push_back(b);
+            objF.z.push_back(c);
 
-        norm objVN = *new norm;
-        scanf("vn %lf %lf %lf", objVN.x, objVN.y, objVN.z);
-        norms.push_back(objVN);
+            token = strtok(NULL, " ");
+        }
 
-        plosk objF = *new plosk;
-        scanf("f %d/%d/%d %d/%d/%d %d/%d/%d %d/%d/%d", a, b, c, d, e, f, g, h, i, j, k, l);
-
-        //cout << x << " - " << y << " - " << z << "\n";
-
-        objF.x.push_back(a);
-        objF.x.push_back(b);
-        objF.x.push_back(c);
-
-        objF.y.push_back(d);
-        objF.y.push_back(e);
-        objF.y.push_back(f);
-
-        objF.z.push_back(g);
-        objF.z.push_back(h);
-        objF.z.push_back(i);
-
-        objF.n.push_back(j);
-        objF.n.push_back(k);
-        objF.n.push_back(l);
-        
+        plosks.push_back(objF);
+        cout << "add objF\n";
     }
-
+    }   
     cout << "cout of vershs: " << vershs.size() << "\n";
     cout << "cout of normals: " << norms.size() << "\n";
     cout << "cout of textcord: " << tcors.size() << "\n";
     cout << "cout of plosks: " << plosks.size() << "\n";
+
 }
